@@ -1,7 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// eslint-disable-next-line import/no-cycle
+import store from '../store'
 
 Vue.use(VueRouter)
+
+const rejectAuthUser = (to, from, next) => {
+  // console.log('rejectAuthUser : ' + store.state.isLogin)
+  if (store.state.isLogin === true) {
+    console.log('true')
+    next('/dashboard')
+  } else {
+    next()
+  }
+}
+
+const onlyAuthUser = (to, from, next) => {
+  // console.log('onlyAuthUser : ' + store.state.isLogin)
+  if (store.state.isLogin === false) {
+    console.log('false')
+    next('/pages/login')
+  } else {
+    next()
+  }
+}
 
 const routes = [
   {
@@ -11,6 +33,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
+    beforeEnter: onlyAuthUser, // Login Guard
     component: () => import('@/views/dashboard/Dashboard.vue'),
   },
   {
@@ -46,6 +69,7 @@ const routes = [
   {
     path: '/pages/login',
     name: 'pages-login',
+    beforeEnter: rejectAuthUser, // Login Guard
     component: () => import('@/views/pages/Login.vue'),
     meta: {
       layout: 'blank',

@@ -11,6 +11,13 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+
+  // beforeCreate() {
+  //   const tokenChk = localStorage.getItem('access_token')
+  //   if (tokenChk) {
+  //     this.$store.dispatch('getMemberInfo')
+  //   }
+  // },
   vuetify,
   render: h => h(App),
 }).$mount('#app')

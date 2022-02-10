@@ -1,6 +1,22 @@
 <template>
   <div class="auth-wrapper auth-v1">
     <div class="auth-inner">
+      <v-alert
+        :value="isLoginError"
+        dense
+        outlined
+        type="error"
+      >
+        Login <strong>Error</strong> please <strong>check</strong> your email or password
+      </v-alert>
+      <v-alert
+        :value="isLogin"
+        dense
+        outlined
+        type="success"
+      >
+        로그인이 완료되었습니다.
+      </v-alert>
       <v-card class="auth-card">
         <!-- logo -->
         <v-card-title class="d-flex align-center justify-center py-7">
@@ -18,20 +34,10 @@
             ></v-img>
 
             <h2 class="text-2xl font-weight-semibold">
-              Materio
+              QuantumMES
             </h2>
           </router-link>
         </v-card-title>
-
-        <!-- title -->
-        <v-card-text>
-          <p class="text-2xl font-weight-semibold text--primary mb-2">
-            Welcome to Materio! 👋🏻
-          </p>
-          <p class="mb-2">
-            Please sign-in to your account and start the adventure
-          </p>
-        </v-card-text>
 
         <!-- login form -->
         <v-card-text>
@@ -74,9 +80,9 @@
             </div>
 
             <v-btn
-              block
               color="primary"
               class="mt-6"
+              @click="login({email, password})"
             >
               Login
             </v-btn>
@@ -144,13 +150,17 @@
 <script>
 // eslint-disable-next-line object-curly-newline
 import { mdiFacebook, mdiTwitter, mdiGithub, mdiGoogle, mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
-import { ref } from '@vue/composition-api'
+import { computed, ref } from '@vue/composition-api'
+import { mapActions } from 'vuex'
 
 export default {
-  setup() {
+
+  setup(props, { root }) {
     const isPasswordVisible = ref(false)
     const email = ref('')
     const password = ref('')
+    const isLogin = computed(() => root.$store.state.isLogin)
+    const isLoginError = computed(() => root.$store.state.isLoginError)
     const socialLink = [
       {
         icon: mdiFacebook,
@@ -179,7 +189,9 @@ export default {
       email,
       password,
       socialLink,
-
+      ...mapActions(['login']),
+      isLogin,
+      isLoginError,
       icons: {
         mdiEyeOutline,
         mdiEyeOffOutline,

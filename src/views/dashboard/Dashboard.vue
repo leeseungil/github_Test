@@ -111,6 +111,7 @@
 <script>
 // eslint-disable-next-line object-curly-newline
 import { mdiPoll, mdiLabelVariantOutline, mdiCurrencyUsd, mdiHelpCircleOutline } from '@mdi/js'
+import { computed } from '@vue/composition-api'
 import StatisticsCardVertical from '@/components/statistics-card/StatisticsCardVertical.vue'
 
 // demos
@@ -133,7 +134,7 @@ export default {
     DashboardWeeklyOverview,
     DashboardDatatable,
   },
-  setup() {
+  setup(props, { root }) {
     const totalProfit = {
       statTitle: 'Total Profit',
       icon: mdiPoll,
@@ -171,11 +172,14 @@ export default {
       change: '-18%',
     }
 
+    const userInfo = computed(() => root.$store.state.userInfo)
+
     return {
       totalProfit,
       totalSales,
       newProject,
       salesQueries,
+      userInfo,
     }
   },
 }

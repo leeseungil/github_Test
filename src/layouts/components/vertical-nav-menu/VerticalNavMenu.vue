@@ -25,7 +25,7 @@
         ></v-img>
         <v-slide-x-transition>
           <h2 class="app-title text--primary">
-            MATERIO
+            Sample Page
           </h2>
         </v-slide-x-transition>
       </router-link>
@@ -52,6 +52,7 @@
         :icon="icons.mdiFileOutline"
       >
         <nav-menu-link
+          v-if="isLogin === false"
           title="Login"
           :to="{ name: 'pages-login' }"
           target="_blank"
@@ -94,7 +95,7 @@
         :icon="icons.mdiFormSelect"
       ></nav-menu-link>
     </v-list>
-    <a
+    <!-- <a
       href="https://themeselection.com/products/materio-vuetify-vuejs-admin-template"
       target="_blank"
       rel="nofollow"
@@ -106,7 +107,7 @@
         class="upgrade-banner mx-auto"
         max-width="230"
       ></v-img>
-    </a>
+    </a> -->
   </v-navigation-drawer>
 </template>
 
@@ -122,6 +123,7 @@ import {
   mdiFormSelect,
   mdiAccountCogOutline,
 } from '@mdi/js'
+import { computed } from '@vue/composition-api'
 import NavMenuSectionTitle from './components/NavMenuSectionTitle.vue'
 import NavMenuGroup from './components/NavMenuGroup.vue'
 import NavMenuLink from './components/NavMenuLink.vue'
@@ -138,8 +140,11 @@ export default {
       default: null,
     },
   },
-  setup() {
+  setup(props, { root }) {
+    const isLogin = computed(() => root.$store.state.isLogin)
+
     return {
+      isLogin,
       icons: {
         mdiHomeOutline,
         mdiAlphaTBoxOutline,

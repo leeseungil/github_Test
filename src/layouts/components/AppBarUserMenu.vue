@@ -145,7 +145,7 @@
             {{ icons.mdiLogoutVariant }}
           </v-icon>
         </v-list-item-icon>
-        <v-list-item-content>
+        <v-list-item-content @click="logOut">
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -154,6 +154,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import {
   mdiAccountOutline,
   mdiEmailOutline,
@@ -168,6 +169,7 @@ import {
 export default {
   setup() {
     return {
+      ...mapActions(['logOut']),
       icons: {
         mdiAccountOutline,
         mdiEmailOutline,
